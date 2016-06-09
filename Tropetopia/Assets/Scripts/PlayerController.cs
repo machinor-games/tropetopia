@@ -12,18 +12,18 @@ public class PlayerController : MonoBehaviour {
 	void Start ()
     {
         if (animator != null)
-            StartCoroutine(animator.IdleAnim());
+            StartCoroutine(animator.Anim(animator.idle));
 	}	
 	// Update is called once per frame
 	void Update ()
     {
 	    if(Input.GetKey(KeyCode.Space))
         {
-            StopCoroutine(animator.IdleAnim());
+            StopCoroutine(animator.Anim(animator.idle));
         }
         if(Input.GetKey(KeyCode.S))
         {
-            StartCoroutine(animator.IdleAnim());
+            StartCoroutine(animator.Anim(animator.idle));
         }
 	}
 }

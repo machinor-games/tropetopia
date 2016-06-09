@@ -17,6 +17,7 @@ public class Frame
         public float x, y;
         public float rotation;
         public bool flipX,flipY;
+        //public int orderLayer;
     };
     public bodyPart[] altered;
 
