@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/mechanimAnimationtesting.unity
+- path: Assets/platformingTest.unity
   isLoaded: 1
   isActive: 1
