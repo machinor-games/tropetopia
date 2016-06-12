@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -12,8 +13,12 @@ public class PlayerController : MonoBehaviour {
     states currentState;
 
     public GameObject playerAnimator;
+    public GameObject[] healthPoints;
+
     Animator anim;
     Rigidbody2D rb;
+
+    private Vector3 lastJump;
 	// Use this for initialization
 	void Start ()
     {
@@ -59,8 +64,12 @@ public class PlayerController : MonoBehaviour {
             // transform.position += Vector3.up * speed * Time.deltaTime;
             if (onGround && currentState != states.JUMP)
             {
+               
                 currentState = states.JUMP;
-                rb.AddForce(jumpHeight * Vector3.up);
+                if(currentState == states.RUN)
+                    rb.AddForce(jumpHeight * 1.5f * Vector3.up);
+                else
+                    rb.AddForce(jumpHeight * Vector3.up);
             }
            
         }
@@ -71,6 +80,10 @@ public class PlayerController : MonoBehaviour {
         CheckGround();
         StateCheck();
     }
+    void OnCollisionEnter(Collider other)
+    {
+        
+    }
     void CheckGround()
     {
         int layermask = 1 << 8;
@@ -79,7 +92,22 @@ public class PlayerController : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, layermask);
         if (hit)
         {
+
             onGround = true;
+            if (hit.transform.gameObject.tag == "Damage")
+            {
+                health--;
+                if (health <= 0)
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                else
+                {
+                    transform.position = lastJump;
+                    healthPoints[health].SetActive(false);
+                }
+              
+            }
+            else
+                lastJump = transform.position;
         }
         else
             onGround = false;
